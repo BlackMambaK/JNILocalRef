@@ -4,6 +4,7 @@ jni 局部引用的内存泄漏及避免
 Local Reference 在 native method 执行完成后，会自动被释放，似乎不会造成任何的内存泄漏。但这是错误的。对 Local Reference 的理解不够，会造成潜在的内存泄漏。
 
 实例
+```c
 JNIEXPORT void JNICALL
 Java_com_kun_jnilocalref_MainActivity_createNativeLocalRef(JNIEnv *env, jobject instance,
                                                            jint count) {
@@ -14,8 +15,10 @@ Java_com_kun_jnilocalref_MainActivity_createNativeLocalRef(JNIEnv *env, jobject 
     LOGE("count :%d", i);
 
 }
+```
 
 运行结果
+
 /DEBUG: *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 /DEBUG: Build fingerprint: 'honor/FRD-AL00/HWFRD:6.0/HUAWEIFRD-AL00/C00B153:user/release-keys'
 /DEBUG: Revision: '0'
@@ -28,6 +31,7 @@ Java_com_kun_jnilocalref_MainActivity_createNativeLocalRef(JNIEnv *env, jobject 
 
 正确的修改方法：
 
+```c
 JNIEXPORT void JNICALL
 Java_com_kun_jnilocalref_MainActivity_createNativeLocalRef1(JNIEnv *env, jobject instance,
                                                             jint count) {
@@ -71,3 +75,4 @@ Java_com_kun_jnilocalref_MainActivity_createNativeLocalRef3(JNIEnv *env, jobject
     }
     LOGE("count :%d", i);
 }
+```
